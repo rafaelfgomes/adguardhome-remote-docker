@@ -1,0 +1,19 @@
+services:
+  adguardhome-remote:
+    image: adguard/adguardhome
+    container_name: adguardhome-remote
+    hostname: adguardhome-remote
+    environment:
+      - TZ=${TIMEZONE:-Etc/UTC}
+    volumes:
+      - ${ADGUARDHOME_REMOTE_CONF_FOLDER:-./data/config}:/opt/adguardhome/conf
+      - ${ADGUARDHOME_REMOTE_WORK_FOLDER:-./data/work}:/opt/adguardhome/work
+    restart: unless-stopped
+    networks:
+      external:
+        ipv4_address: ${ADGUARDHOME_REMOTE_IP}
+
+networks:
+  external:
+    external: true
+    name: ${EXTERNAL_NETWORK_NAME}
